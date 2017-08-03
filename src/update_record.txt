@@ -1,0 +1,14 @@
+pointcloud_obstacle.cpp
+V1.1 2017.4.11
+7     #define MAP_IDX(sx, i, j) ((sx) * (j) + (i+M))改为#define MAP_IDX(sx, i, j) ((sx) * (i+M) + (j+sx/2))
+108   for (unsigned int k = 51200; k < size-10240; ++k)更改为 for (unsigned int k = 0; k < size; ++k)
+110 111 删除if(k%512>502||k%512<10) continue;
+            if(k<51200&&(k%512>362||k%512<150)) continue;
+
+127 128       (int)floor(pt_cloud.x/resolution_xy),
+              (int)floor(pt_cloud.y/resolution_xy));中去掉+width
+
+
+
+   
+

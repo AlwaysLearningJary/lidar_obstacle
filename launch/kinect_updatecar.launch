@@ -1,0 +1,27 @@
+<launch>
+    <!-- launch realsense camera & set parameters -->
+   <include file="$(find realsense_camera)/launch/r200_nodelet_modify_params.launch">
+    <arg name="color_height" value="240" />
+    <arg name="color_width" value="320" />
+    <arg name="depth_height" value="240" />
+    <arg name="depth_width" value="320" />
+    <arg name="depth_fps" value="30" />
+    <arg name="color_fps" value="30" />
+    <arg name="enable_tf_dynamic" default="true" />
+    <arg name="enable_ir" value="true" />
+    <arg name="enable_ir2" value="true" />
+    <arg name="enable_pointcloud" value="true" />
+    </include>
+    <!-- launch costmap_2d -->
+    <include file="$(find costmap_2d)/launch/example.launch">
+    </include>
+    <!-- set the tf configure -->
+    <node name="realcam_car_node" pkg="realcam_car" type="realcam_car_node" />
+    <node pkg="topic_tools" type="throttle" name="changerate" args="messages /camera/depth/image_raw 5.0 outputrate" />
+    <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster1" args="0 0 0 0 0 0 /map /odom 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster2" args="0 0 0 0 0 0 /odom /base_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster3" args="5 5 0 0 0 0 /base_link /camera_link 100"/>
+    <node pkg="tf" type="static_transform_publisher" name="map_nav_broadcaster4" args="0 0 0 0 0 0 /base_link /base_footprint 100"/>
+
+</launch>
+
